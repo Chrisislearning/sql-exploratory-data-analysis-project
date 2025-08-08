@@ -5,7 +5,7 @@
 Familiarise yourself with the database AdventureWorksDW2022, focusing on data related to customers and products. Create views that will help in doing data analysis. Prepare reports regarding data quality and basic insigths on the customers and products.
 Follow naming conventions that are used in the database, write the code in lower case.
 ## 1. Explore the database structure
-- Use build-in functionalities of SQL Server Management Studio (SSMS) to learn the structure of tables (sizes, datatypes, keys, indexes) and how they relate to each other (primary/foreign keys, redundant informations, measures vs dimensions);
+- Use build-in functionalities of SQL Server Management Studio (SSMS) to learn the structure of tables (sizes, datatypes, keys) and how they relate to each other (primary/foreign keys, redundant informations, facts and measures vs dimensions);
 - Use draw.io to create database plan, focusing on primary and foreign keys. Make it easy to read and understand;
 ## 2. Handle missing and incorrect data
 - Decide on how to approach zeros and nulls to avoid skewing the data aggregations;
