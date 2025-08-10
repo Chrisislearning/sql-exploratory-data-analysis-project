@@ -17,7 +17,7 @@ concatenation to create the list of column names.
 
 
 /*============================================
-			           DimCustomer
+			     DimCustomer
 ============================================*/
 
 --create the list of columns to search through
@@ -40,8 +40,8 @@ select
 	,NumberChildrenAtHome
 	,HouseOwnerFlag
 	,NumberCarsOwned
-	,DateFirstPurchase
 from DimCustomer
+
 where 	
        BirthDate            is null
 	or MaritalStatus        is null
@@ -50,8 +50,7 @@ where
 	or TotalChildren        is null
 	or NumberChildrenAtHome is null
 	or HouseOwnerFlag       is null
-	or NumberCarsOwned      is null
-	or DateFirstPurchase    is null;
+	or NumberCarsOwned      is null;
 
 --check for errors in low cardinality columns
 select distinct MaritalStatus from DimCustomer;
@@ -143,9 +142,11 @@ select
 	,CustomerKey
 	,SalesOrderNumber
 	,SalesOrderLineNumber
+	,OrderQuantity
+	,UnitPrice
 	,SalesAmount
 from FactInternetSales;
---remaining columns are all not nullable
+--selected columns are all not nullable
 
 
 /*============================================
