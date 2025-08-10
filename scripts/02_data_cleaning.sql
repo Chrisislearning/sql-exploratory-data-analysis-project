@@ -41,7 +41,6 @@ select
 	,HouseOwnerFlag
 	,NumberCarsOwned
 from DimCustomer
-
 where 	
        BirthDate            is null
 	or MaritalStatus        is null
