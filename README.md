@@ -20,3 +20,8 @@ Follow naming conventions that are used in the database, write the code in lower
 - Determine the influence of outlying values and decide if they should be included in summary;
 - Create a report in SQL and a Dashboard in Excel/PowerBI with basic information about analysed data: averages, min and max values, orders per customer, customers per country, revenue per category and so on;
 - Where applicable, use Excel to visualise the data;
+## plan for the future 5. Include data about Sales and prepare more complex aggregations
+- change over time
+- cumulative and performance analysis
+- part-to-whole
+- data segmentation
