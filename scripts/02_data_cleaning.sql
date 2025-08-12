@@ -293,6 +293,23 @@ from DimProduct
 where FinishedGoodsFlag = 1;
 --errors found in 3 columns, consult report.
 
+--check rows with errors for possible duplicates
+--with corrected data
+select
+	ProductKey
+	,ProductSubcategoryKey
+	,EnglishProductName
+	,StandardCost
+	,FinishedGoodsFlag
+	,ListPrice
+	,DealerPrice
+	,StartDate
+	,EndDate
+	,Status
+from DimProduct
+where ProductKey in (210, 211)
+   or EnglishProductName in ('HL Road Frame - Black, 58', 'HL Road Frame - Red, 58')
+
 --check dates
 select  
 	ProductKey
@@ -345,7 +362,7 @@ having count(*) > 1
 
 /*============================================
         	DimProductSubcategory
-			    DimProductCategory
+			 DimProductCategory
 ============================================*/
 
 --check for missing names
