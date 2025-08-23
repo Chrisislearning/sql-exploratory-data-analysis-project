@@ -131,18 +131,22 @@ select
 into eda.DimCustomer
 from DimCustomer;
 
---FactCurrencyRate plus DimCurrency
+--FactCurrencyRate
 select
-	 r.CurrencyKey
-	,r.DateKey
-	,r.AverageRate
-	,r.EndOfDayRate
-	,cast(r.Date as date) as RateDate
-	,c.CurrencyName
+	 CurrencyKey
+	,DateKey
+	,AverageRate
+	,EndOfDayRate
+	,cast(Date as date) as RateDate
 into eda.FactCurrencyRate
-from FactCurrencyRate as r
-join DimCurrency as c
-on r.CurrencyKey = c.CurrencyKey;
+from FactCurrencyRate
+
+
+--DimCurrency
+select
+	*
+into eda.DimCurrency
+from DimCurrency
 
 --DimDate
 select 
