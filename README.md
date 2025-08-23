@@ -1,7 +1,7 @@
 # sql-exploratory-data-analysis-project
  This is a practise/portfolio project written in SQL Server and using AdventureWorksDW2022 database [provided by Microsoft](https://learn.microsoft.com/en-us/sql/samples/adventureworks-install-configure?view=sql-server-ver16&tabs=ssms.)
 
-##update
+## update
 When I started this project, I thought including sales data would be too much. Half way through I learned Power BI and realized how easier it makes everything. I also learned more about data analysis and now think that data only about customers and products won't suffice. I'm in the process of rebuilding everything, if you see something making no sense then it's probably because I didn't do that part yet.
 
 # Task:
