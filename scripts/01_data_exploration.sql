@@ -1,7 +1,7 @@
+
 /*=================================================
-1. Data exploration
-	Check the structure of and relations
-	between tables and columns.
+1. Data exploration: check the structure of and 
+	relations between tables and columns.
 =================================================*/
 
 
@@ -13,7 +13,7 @@ select * from INFORMATION_SCHEMA.COLUMNS;
 
 --selected columns of the above
 select 
-	TABLE_NAME
+	 TABLE_NAME
 	,COLUMN_NAME
 	,IS_NULLABLE
 	,DATA_TYPE
@@ -27,42 +27,163 @@ select
 from INFORMATION_SCHEMA.COLUMNS
 order by TABLE_NAME;
 
+/*=================================================
+2. Create Entity-Relationship Diagram, remove from 
+	it unneccessary tables and denormalize the rest,
+	choose columns that will be needed.
+	Create schema "eda" and use "select into"
+	to create new tables in it.
+=================================================*/
 
-/*
-list of tables relevant to customers, products or both,
-together with their columns used as keys.
-Use it to generate Entity-Relationship Diagram.
-Don't include keys relating to unneeded tables.
--------------------------------------------------------
-Customers:
+create schema eda;
 
-	DimCustomer 
-		PK CustomerKey 
-		FK GeographyKey
+--FactInternetSales 
+select 
+	 ProductKey
+	,OrderDateKey
+	,CustomerKey
+	,CurrencyKey
+	,SalesTerritoryKey
+	,SalesOrderNumber + cast(SalesOrderLineNumber as nvarchar) as SalesSurrogateKey
+	,OrderQuantity
+	,UnitPrice
+	,UnitPriceDiscountPct
+	,DiscountAmount
+	,ProductStandardCost
+	,TotalProductCost
+	,SalesAmount
+	,cast(OrderDate as date) as OrderDate
+into eda.FactInternetSales
+from FactInternetSales;
 
-	ProspectiveBuyer 
-		PK ProspectiveBuyerKey
--------------------------------------------------------
-Products:
-	
-	DimProduct 
-		PK ProductKey 
-		FK ProductSubcategoryKey
+--FactInternetSalesReason plus DimSalesReason
+select 
+	 r.SalesOrderNumber + cast(r.SalesOrderLineNumber as nvarchar) as SalesSurrogateKey
+	,d.SalesReasonName
+	,d.SalesReasonReasonType
+into eda.FactInternetSalesReason
+from FactInternetSalesReason as r
+join DimSalesReason as d
+on r.SalesReasonKey = d.SalesReasonKey;
 
-	DimProductCategory 
-		PK ProductCategoryKey
+--FactResellerSales plus DimReseller
+select 
+	 s.ProductKey
+	,s.OrderDateKey
+	,s.ResellerKey
+	,r.GeographyKey as ResellerGeographyKey
+	,s.CurrencyKey
+	,s.SalesTerritoryKey
+	,s.SalesOrderNumber + cast(SalesOrderLineNumber as nvarchar) as SalesSurrogateKey
+	,s.OrderQuantity
+	,s.UnitPrice
+	,s.ExtendedAmount
+	,s.UnitPriceDiscountPct
+	,s.DiscountAmount
+	,s.ProductStandardCost
+	,s.TotalProductCost
+	,s.SalesAmount
+	,s.TaxAmt
+	,s.Freight
+	,cast(s.OrderDate as date) as OrderDate
+	,r.BusinessType as ResellerBusinessType
+	,r.ProductLine
+	,r.AnnualSales as ResellerAnnualSales
+	,r.AnnualRevenue as ResellerAnnualRevenue
+into eda.FactResellerSales
+from FactResellerSales as s
+join DimReseller as r
+on s.ResellerKey = r.ResellerKey;
 
-	DimProductSubcategory 
-		PK ProductSubcategoryKey 
-		FK ProductCategoryKey
--------------------------------------------------------
-Both:
+--DimSalesTerritory
+select 
+	 SalesTerritoryKey
+	,SalesTerritoryAlternateKey
+	,SalesTerritoryRegion
+	,SalesTerritoryCountry
+	,SalesTerritoryGroup
+into eda.DimSalesTerritory
+from DimSalesTerritory;
 
-	FactInternetSales 
-		PK SalesOrderNumber, SalesOrderLineNumber 
-		FK ProductKey, OrderDateKey, DueDateKey, ShipDateKey, CustomerKey, PromotionKey, CurrencyKey, SalesTerritoryKey
-	
-	FactResellerSales 
-		PK SalesOrderNumber, SalesOrderLineNumber 
-		FK ProductKey, OrderDateKey, DueDateKey, ShipDateKey, ResellerKey, EmployeeKey, PromotionKey, CurrencyKey, SalesTerritoryKey
-*/
+--DimGeography
+select
+	 GeographyKey
+	,City 
+	,StateProvinceCode 
+	,StateProvinceName 
+	,CountryRegionCode
+	,EnglishCountryRegionName
+	,SalesTerritoryKey
+into eda.DimGeography
+from DimGeography;
+
+--DimCustomer
+select
+	 CustomerKey
+	,BirthDate 
+	,MaritalStatus
+	,YearlyIncome 
+	,TotalChildren 
+	,NumberChildrenAtHome
+	,HouseOwnerFlag
+	,NumberCarsOwned 
+	,DateFirstPurchase
+into eda.DimCustomer
+from DimCustomer;
+
+--FactCurrencyRate plus DimCurrency
+select
+	 r.CurrencyKey
+	,r.DateKey
+	,r.AverageRate
+	,r.EndOfDayRate
+	,cast(r.Date as date) as RateDate
+	,c.CurrencyName
+into eda.FactCurrencyRate
+from FactCurrencyRate as r
+join DimCurrency as c
+on r.CurrencyKey = c.CurrencyKey;
+
+--DimDate
+select 
+	 DateKey
+	,FullDateAlternateKey
+	,DayNumberOfWeek
+	,EnglishDayNameOfWeek
+	,DayNumberOfMonth
+	,DayNumberOfYear
+	,WeekNumberOfYear
+	,EnglishMonthName
+	,MonthNumberOfYear
+	,CalendarQuarter
+	,CalendarYear
+	,CalendarSemester
+	,FiscalQuarter
+	,FiscalYear
+	,FiscalSemester
+into eda.DimDate
+from DimDate;
+
+--DimProduct plus ProductSubcategoryKey plus ProductCategoryKey
+select
+	 p.ProductKey
+	,p.ProductAlternateKey
+	,c.EnglishProductCategoryName
+	,s.EnglishProductSubcategoryName
+	,p.EnglishProductName
+	,p.StandardCost
+	,p.FinishedGoodsFlag
+	,p.ListPrice
+	,p.ProductLine
+	,p.DealerPrice
+	,p.ModelName
+	,p.EnglishDescription
+	,cast(p.StartDate as date) as StartDate
+	,cast(p.EndDate as date) as EndDate
+	,p.Status as ProductionStatus
+into eda.DimProduct
+from DimProduct as p
+left join DimProductSubcategory as s
+on p.ProductSubcategoryKey = s.ProductSubcategoryKey
+left join DimProductCategory as c
+on s.ProductCategoryKey = c.ProductCategoryKey;
