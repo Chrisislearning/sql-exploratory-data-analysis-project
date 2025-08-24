@@ -2,7 +2,6 @@
 
 Out of 9 tables, only DimProduct contains errors:
 
-All products not flagged as "finished goods" have no cost listed. If this is meant as production cost then probably should not be null.
 2 products flagged as "finished goods" have no cost and no prices listed, and they are marked as "current", so still produced- needs to be clarified.
 17 products have no ProductLine listed.
 
