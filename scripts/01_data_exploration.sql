@@ -120,7 +120,6 @@ from DimGeography;
 --DimCustomer
 select
 	 CustomerKey
-	,GeographyKey
 	,BirthDate 
 	,MaritalStatus
 	,YearlyIncome 
