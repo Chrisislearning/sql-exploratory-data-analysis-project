@@ -120,6 +120,7 @@ from DimGeography;
 --DimCustomer
 select
 	 CustomerKey
+	,GeographyKey
 	,BirthDate 
 	,MaritalStatus
 	,YearlyIncome 
@@ -130,6 +131,7 @@ select
 	,DateFirstPurchase
 into eda.DimCustomer
 from DimCustomer;
+
 
 --FactCurrencyRate
 select
