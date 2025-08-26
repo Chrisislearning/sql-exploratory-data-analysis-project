@@ -15,7 +15,7 @@ Familiarise yourself with the database AdventureWorksDW2022, focusing on data re
 ## in progress 3. Create a report
 - Determine the influence of outlying values and decide if they should be included in your summary;
 - Create a report in SQL and PowerBI with basic information about analysed data: averages, min and max values, orders per customer, customers per country, revenue per category and so on;
-## plan for the future 4. prepare more complex aggregations
+## in progress 4. prepare more complex aggregations
 - change over time
 - cumulative and performance analysis
 - part-to-whole
