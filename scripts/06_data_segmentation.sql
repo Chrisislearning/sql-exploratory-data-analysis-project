@@ -28,13 +28,16 @@ select
     ,case
         when IncomeRange = 'High' and SpendingRange = 'High'
         then 'Yes'
+        else ''
      end as VIP
     ,case
         when IncomeRange = 'High' and SpendingRange != 'High' and NoOfOrders < 4
         then 'Yes'
+        else ''
      end as PromisingCustomer
     ,case
         when NoOfOrders > 10
         then 'Yes'
+        else ''
      end as RegularBuyer
 from eda.vCustomersSpendings
