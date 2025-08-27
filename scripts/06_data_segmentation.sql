@@ -1,6 +1,6 @@
 
 /*=======================================
-            Data_segmentation
+            Data segmentation
 =======================================*/
 
 --products split into price ranges
@@ -22,10 +22,19 @@ from (
 group by PriceRange
 order by count(*) desc;
 
---number of orders per income range
-select * from eda.vCustomersSPendings
-
-
-
-
-
+--Customers with assigned categories
+select 
+     CustomerKey
+    ,case
+        when IncomeRange = 'High' and SpendingRange = 'High'
+        then 'Yes'
+     end as VIP
+    ,case
+        when IncomeRange = 'High' and SpendingRange != 'High' and NoOfOrders < 4
+        then 'Yes'
+     end as PromisingCustomer
+    ,case
+        when NoOfOrders > 10
+        then 'Yes'
+     end as RegularBuyer
+from eda.vCustomersSpendings
