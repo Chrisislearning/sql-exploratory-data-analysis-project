@@ -60,7 +60,6 @@ on cc.Country = cs.Country
 left join CTE_country_items as ci
 on cc.Country = ci.Country;
 
-
 --basic info on categories of products
 with CTE_category_products as (
 	select
