@@ -30,7 +30,7 @@ from eda.DimCustomer as d
 join eda.DimGeography as g
 on d.GeographyKey = g.GeographyKey
 group by g.EnglishCountryRegionName
-order by count(d.CustomerKey) desc
+order by count(d.CustomerKey) desc;
 
 --total sales per country
 select
@@ -40,7 +40,7 @@ from eda.vFactSalesCombined as s
 join eda.DimSalesTerritory as t
 on s.SalesTerritoryKey = t.SalesTerritoryKey
 group by t.SalesTerritoryCountry
-order by round(sum(s.SalesAmount), 2) desc
+order by round(sum(s.SalesAmount), 2) desc;
 
 --total products per category
 select
@@ -49,7 +49,7 @@ select
 from eda.DimProduct
 where FinishedGoodsFlag = 1
 group by EnglishProductCategoryName
-order by count(EnglishProductCategoryName) desc
+order by count(EnglishProductCategoryName) desc;
 
 --total sales per category
 select
@@ -59,7 +59,7 @@ from eda.vFactSalesCombined as s
 join eda.DimProduct as p
 on s.ProductKey = p.ProductKey
 group by p.EnglishProductCategoryName
-order by round(sum(s.SalesAmount), 2) desc
+order by round(sum(s.SalesAmount), 2) desc;
 
 --average profit and margin per category
 select
@@ -69,7 +69,7 @@ select
 from eda.vFactSalesCombined as s
 join eda.DimProduct as p
 on s.ProductKey = p.ProductKey
-group by p.EnglishProductCategoryName
+group by p.EnglishProductCategoryName;
 
 --items sold per country
 select 
@@ -79,7 +79,7 @@ from eda.vFactSalesCombined as s
 join eda.DimSalesTerritory as t
 on s.SalesTerritoryKey = t.SalesTerritoryKey
 group by t.SalesTerritoryCountry
-order by sum(s.OrderQuantity) desc
+order by sum(s.OrderQuantity) desc;
 
 --orders per customer
 select 
@@ -88,4 +88,4 @@ select
 	--no need for OrderQuantity as they all = 1
 from eda.FactInternetSales
 group by CustomerKey
-order by count(SalesSurrogateKey) desc
+order by count(SalesSurrogateKey) desc;
